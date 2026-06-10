@@ -1,0 +1,235 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #07080d;
+  --surface: #0f1117;
+  --surface2: #161923;
+  --border: rgba(255, 255, 255, 0.07);
+  --text: #e8eaf2;
+  --muted: #5a6070;
+  --accent: #c8f53a;
+  --accent-dim: rgba(200, 245, 58, 0.12);
+  --fake: #f5533a;
+  --real: #3af5a0;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: -20vh;
+  right: -10vw;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(
+    circle,
+    rgba(58, 245, 160, 0.04) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+body::after {
+  content: "";
+  position: fixed;
+  bottom: -20vh;
+  left: -10vw;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(
+    circle,
+    rgba(200, 245, 58, 0.04) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.wrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+}
+
+.logo {
+  font-family: "Syne", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 32px;
+  letter-spacing: -0.02em;
+}
+.logo span {
+  color: var(--accent);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 40px 36px;
+}
+
+.card-title {
+  font-family: "Syne", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+.card-sub {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 32px;
+  font-weight: 300;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+.field label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+.field input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.92rem;
+  padding: 13px 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.field input::placeholder {
+  color: var(--muted);
+}
+.field input:focus {
+  border-color: rgba(200, 245, 58, 0.4);
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  margin-top: 22px;
+  padding: 14px;
+  background: var(--accent);
+  color: #0a0d05;
+  font-family: "Syne", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  background: #d4f850;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 28px rgba(200, 245, 58, 0.18);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px;
+  background: transparent;
+  color: var(--text);
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-google:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--surface2);
+}
+
+.alert-error {
+  background: rgba(245, 83, 58, 0.1);
+  border: 1px solid rgba(245, 83, 58, 0.25);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.84rem;
+  color: var(--fake);
+  margin-top: 16px;
+}
+.alert-success {
+  background: rgba(58, 245, 160, 0.08);
+  border: 1px solid rgba(58, 245, 160, 0.2);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.84rem;
+  color: var(--real);
+  margin-top: 16px;
+}
+
+.footer-link {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.83rem;
+  color: var(--muted);
+}
+.footer-link a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.footer-link a:hover {
+  text-decoration: underline;
+}
+
+/* Password strength hint */
+.hint {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 6px;
+}

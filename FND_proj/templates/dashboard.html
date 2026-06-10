@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruthLens — AI News Detector</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+<nav>
+    <div class="logo">Truth<span>Lens</span></div>
+    <div class="nav-right">
+        <span class="user-chip">{{ request.user.username }}</span>
+        <a href="/logout/" class="logout-btn">Sign out</a>
+    </div>
+</nav>
+
+<main>
+
+    <!-- Hero -->
+    <div class="hero">
+        <div class="hero-badge">AI-Powered Detection</div>
+        <h1>Is this news<br><em>real or fake?</em></h1>
+        <p>Paste any article and three independent ML models will analyse and vote on its authenticity.</p>
+    </div>
+
+    <!-- Stats -->
+    {% with total=history.count %}
+    {% with fake_count=history.filter.count %}
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-num">{{ history|length }}</div>
+            <div class="stat-label">Total Checked</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num" style="color:var(--real)">
+                {% with real_c=0 %}{{ history|length }}{% endwith %}
+            </div>
+            <div class="stat-label">Articles Scanned</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num" style="color:var(--accent)">99.2%</div>
+            <div class="stat-label">Model Accuracy</div>
+        </div>
+    </div>
+    {% endwith %}
+    {% endwith %}
+
+    <!-- Result (shown above input after POST) -->
+    {% if result %}
+        {% if result == 'TOO_SHORT' %}
+        <div class="result-card TOO_SHORT">
+            <div class="result-header">
+                <div class="result-icon">⚠️</div>
+                <div>
+                    <div class="result-verdict">More text needed</div>
+                    <div class="result-sub">Cannot make a reliable prediction</div>
+                </div>
+            </div>
+            <p class="warn-msg">{{ prediction_message }}</p>
+        </div>
+
+        {% elif result == 'ERROR' %}
+        <div class="result-card ERROR">
+            <div class="result-header">
+                <div class="result-icon">❌</div>
+                <div>
+                    <div class="result-verdict" style="color:var(--muted)">Error</div>
+                    <div class="result-sub">{{ prediction_message }}</div>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="result-card {{ result }}">
+            <div class="result-header">
+                <div class="result-icon">
+                    {% if result == 'REAL' %}✅{% else %}🚨{% endif %}
+                </div>
+                <div>
+                    <div class="result-verdict">
+                        {% if result == 'REAL' %}Real News{% else %}Fake News Detected{% endif %}
+                    </div>
+                    <div class="result-sub">
+                        {% if result == 'REAL' %}This article appears to be legitimate.{% else %}This article shows characteristics of misinformation.{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="conf-label">
+                <span>Confidence</span>
+                <span>{{ confidence }}%</span>
+            </div>
+            <div class="conf-track">
+                <div class="conf-fill" style="width: {{ confidence }}%"></div>
+            </div>
+
+            {% if individual_predictions %}
+            <div class="votes-grid">
+                <div class="vote-chip">
+                    <div class="model-name">Naive Bayes</div>
+                    <div class="model-vote {{ individual_predictions.naive_bayes }}">{{ individual_predictions.naive_bayes }}</div>
+                </div>
+                <div class="vote-chip">
+                    <div class="model-name">Decision Tree</div>
+                    <div class="model-vote {{ individual_predictions.decision_tree }}">{{ individual_predictions.decision_tree }}</div>
+                </div>
+                <div class="vote-chip">
+                    <div class="model-name">SVM</div>
+                    <div class="model-vote {{ individual_predictions.svm }}">{{ individual_predictions.svm }}</div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    {% endif %}
+
+    <!-- Input form -->
+    <div class="card">
+        <label class="input-label" for="news_text">Paste your article</label>
+        <form method="post">
+            {% csrf_token %}
+            <textarea name="news_text" id="news_text"
+                placeholder="Paste the full text of the news article here. Include the title and body for the best accuracy…"
+                required>{% if request.POST.news_text %}{{ request.POST.news_text }}{% endif %}</textarea>
+            <p class="tip">For best accuracy, paste at least 2–3 full paragraphs (30+ words).</p>
+            <button type="submit" class="analyze-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Analyse Article
+            </button>
+        </form>
+    </div>
+
+    <!-- History -->
+    <div class="card">
+        <div class="section-label">Analysis History</div>
+        <div class="history-list">
+            {% for h in history %}
+            <div class="history-item">
+                <span class="history-text">{{ h.news_text|truncatewords:12 }}</span>
+                <div class="history-right">
+                    <span class="badge {{ h.prediction }}">{{ h.prediction }}</span>
+                    <span class="history-date">{{ h.created_at|date:"M d, H:i" }}</span>
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-state">No analyses yet — paste an article above to get started.</div>
+            {% endfor %}
+        </div>
+    </div>
+
+</main>
+
+</body>
+</html>

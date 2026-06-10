@@ -1,0 +1,6 @@
+ISOT Fake News Detection Models
+==================================================
+Dataset: 44,898 articles
+Training Date: 2026-02-06 17:58:34.834363
+Models: Naive Bayes, Decision Tree, SVM
+Ensemble Method: Majority Voting

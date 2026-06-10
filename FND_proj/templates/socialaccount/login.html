@@ -1,0 +1,43 @@
+{% load i18n %}
+{% load socialaccount %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sign In — TruthLens</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/google_login.css' %}">
+</head>
+<body>
+
+<div class="wrapper">
+
+    <div class="logo">Truth<span>Lens</span></div>
+
+    <div class="card">
+        <div class="g-icon">🌐</div>
+
+        <div class="card-title">{% trans "Sign in with Google" %}</div>
+        <div class="card-sub">{% trans "You'll be redirected to Google to securely authenticate your account." %}</div>
+
+        <form method="post" action="{% provider_login_url 'google' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-google">
+                🌐 {% trans "Continue with Google" %}
+            </button>
+        </form>
+
+        <p class="privacy-note">By continuing, you agree to TruthLens's terms. Your Google account info is only used for authentication.</p>
+    </div>
+
+    <a href="{% url 'login' %}" class="back-link">
+        ← {% trans "Back to login" %}
+    </a>
+
+</div>
+</body>
+</html>

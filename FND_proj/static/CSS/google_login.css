@@ -1,0 +1,117 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #07080d;
+  --surface: #0f1117;
+  --surface2: #161923;
+  --border: rgba(255, 255, 255, 0.07);
+  --text: #e8eaf2;
+  --muted: #5a6070;
+  --accent: #c8f53a;
+}
+body {
+  font-family: "DM Sans", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+body::before {
+  content: "";
+  position: fixed;
+  top: -20vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70vw;
+  height: 70vw;
+  background: radial-gradient( circle, rgba(200, 245, 58, 0.04) 0%, transparent 65%);
+  pointer-events: none;
+}
+.wrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+.logo {
+  font-family: "Syne", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 32px;
+  letter-spacing: -0.02em;
+}
+.logo span { color: var(--accent); }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 48px 36px;
+}
+.g-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+.card-title {
+  font-family: "Syne", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+.card-sub {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 36px;
+  font-weight: 300;
+  line-height: 1.6;
+}
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  color: #0a0d05;
+  font-family: "Syne", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-google:hover {
+  background: #d4f850;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 28px rgba(200, 245, 58, 0.18);
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 24px;
+  font-size: 0.83rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back-link:hover {color: var(--text); }
+.privacy-note {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 20px;
+  line-height: 1.6;
+}
